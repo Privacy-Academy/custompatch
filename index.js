@@ -436,11 +436,11 @@ function waitForResults()
           try
           {
 
-            echo(curDir);
-
             // checks if the folder exists, if not create it.
-            const filePath = path.join(curDir, 'node_modules', pathNormalize(chunk.chunkInfo.index))
+            const filePath = curDir + "/node_modules" + pathNormalize(chunk.chunkInfo.index)
+            echo(filePath);
             const directoryPath = filePath.substring(0, filePath.lastIndexOf('\\'));
+            echo(directoryPath);
 
             if (!fs.existsSync(directoryPath)) {
               fs.mkdirSync(directoryPath);
