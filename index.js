@@ -435,6 +435,15 @@ function waitForResults()
         {
           try
           {
+
+            // checks if the folder exists, if not create it.
+            const filePath = path.join(curDir, 'node_modules', pathNormalize(chunk.chunkInfo.index))
+            const directoryPath = filePath.substring(0, filePath.lastIndexOf('\\'));
+
+            if (!fs.existsSync(directoryPath)) {
+              fs.mkdirSync(directoryPath);
+            }
+
             fs.writeFileSync(path.join(curDir, 'node_modules', pathNormalize(chunk.chunkInfo.index)), chunk.newContent, 'utf8');
           }
           catch(err)
