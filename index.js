@@ -436,7 +436,7 @@ function waitForResults()
           try
           {
 
-            echo(chunk.chunkInfo.index);
+            echo(curDir);
 
             // checks if the folder exists, if not create it.
             const filePath = path.join(curDir, 'node_modules', pathNormalize(chunk.chunkInfo.index))
