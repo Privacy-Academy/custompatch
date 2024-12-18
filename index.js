@@ -433,24 +433,24 @@ function waitForResults()
         // replace original file with the patched content
         if(chunk.newContent !== false)
         {
-          try
-          {
+          try {
+            const filePath = path.join(curDir, "node_modules", pathNormalize(chunk.chunkInfo.index));
+            echo('Final File Path: ' + filePath);
 
-            // checks if the folder exists, if not create it.
-            const filePath = curDir + "/node_modules" + pathNormalize(chunk.chunkInfo.index)
-            echo(filePath);
-            const directoryPath = filePath.substring(0, filePath.lastIndexOf('/') + 1);
-            echo(directoryPath);
+            const directoryPath = path.dirname(filePath);
+            echo('Directory Path: ' + directoryPath);
 
-            if (!fs.existsSync(directoryPath)) {
-              fs.mkdirSync(directoryPath);
-            }
+            // Create directories if they don't exist
+            fs.mkdirSync(directoryPath, { recursive: true });
 
-            fs.writeFileSync(path.join(curDir, 'node_modules', pathNormalize(chunk.chunkInfo.index)), chunk.newContent, 'utf8');
-          }
-          catch(err)
-          {
-            echo('Could not write the new content for chunk ' + startColor('greenBright') + pathNormalize(chunk.chunkInfo.index) + stopColor() + ' = ' + startColor('redBright') + err + stopColor());
+            // Write the file
+            fs.writeFileSync(filePath, chunk.newContent, 'utf8');
+          } catch (err) {
+            echo('Could not write the new content for chunk ' +
+              startColor('greenBright') + pathNormalize(chunk.chunkInfo.index) +
+              stopColor() + ' = ' +
+              startColor('redBright') + err + stopColor()
+            );
             chunk.success = false;
           }
         }
